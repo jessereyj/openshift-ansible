@@ -116,12 +116,12 @@ objects:
       spec:
         containers:
           - name: istio2-operator
-            image: ${OPENSHIFT_ISTIO_PREFIX}istio2-operator-centos7:${OPENSHIFT_ISTIO_VERSION}
+            image: ${OPENSHIFT_ISTIO_PREFIX}istio-operator-centos7:${OPENSHIFT_ISTIO_VERSION}
             ports:
             - containerPort: 60000
               name: metrics
             command:
-            - istio2-operator
+            - istio-operator
             args:
             - "--release=${OPENSHIFT_RELEASE}"
             - "--masterPublicURL=${OPENSHIFT_ISTIO_MASTER_PUBLIC_URL}"
@@ -135,4 +135,4 @@ objects:
                   fieldRef:
                     fieldPath: metadata.namespace
               - name: OPERATOR_NAME
-                value: "istio2-operator"
+                value: "istio-operator"
