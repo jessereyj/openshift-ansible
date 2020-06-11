@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: istio-operator-job
+  name: istio2-operator-job
 parameters:
 - displayName: Master Public URL
   description: The public URL for master
@@ -15,7 +15,7 @@ parameters:
 - displayName: Istio Operator Namespace
   description: The namespace for the Istio operator
   name: OPENSHIFT_ISTIO_OPERATOR_NAMESPACE
-  value: istio-operator
+  value: istio2-operator
   required: true
 - displayName: Default Prefix
   description: The default image prefix for istio deployments
@@ -45,7 +45,7 @@ objects:
 - kind: Role
   apiVersion: rbac.authorization.k8s.io/v1
   metadata:
-    name: istio-operator
+    name: istio2-operator
   rules:
   - apiGroups:
     - istio.openshift.com
@@ -78,19 +78,19 @@ objects:
 - kind: RoleBinding
   apiVersion: rbac.authorization.k8s.io/v1
   metadata:
-    name: default-account-istio-operator
+    name: default-account-istio2-operator
   subjects:
   - kind: ServiceAccount
     namespace: ${OPENSHIFT_ISTIO_OPERATOR_NAMESPACE}
     name: default
   roleRef:
     kind: Role
-    name: istio-operator
+    name: istio2-operator
     apiGroup: rbac.authorization.k8s.io
 - kind: ClusterRoleBinding
   apiVersion: rbac.authorization.k8s.io/v1
   metadata:
-    name: default-account-istio-operator-cluster-role-binding
+    name: default-account-istio2-operator-cluster-role-binding
   subjects:
   - kind: ServiceAccount
     namespace: ${OPENSHIFT_ISTIO_OPERATOR_NAMESPACE}
@@ -102,26 +102,26 @@ objects:
 - kind: Deployment
   apiVersion: apps/v1
   metadata:
-    name: istio-operator
+    name: istio2-operator
     namespace: ${OPENSHIFT_ISTIO_OPERATOR_NAMESPACE}
   spec:
     replicas: 1
     selector:
       matchLabels:
-        name: istio-operator
+        name: istio2-operator
     template:
       metadata:
         labels:
-          name: istio-operator
+          name: istio2-operator
       spec:
         containers:
-          - name: istio-operator
-            image: ${OPENSHIFT_ISTIO_PREFIX}istio-operator-centos7:${OPENSHIFT_ISTIO_VERSION}
+          - name: istio2-operator
+            image: ${OPENSHIFT_ISTIO_PREFIX}istio2-operator-centos7:${OPENSHIFT_ISTIO_VERSION}
             ports:
             - containerPort: 60000
               name: metrics
             command:
-            - istio-operator
+            - istio2-operator
             args:
             - "--release=${OPENSHIFT_RELEASE}"
             - "--masterPublicURL=${OPENSHIFT_ISTIO_MASTER_PUBLIC_URL}"
@@ -135,4 +135,4 @@ objects:
                   fieldRef:
                     fieldPath: metadata.namespace
               - name: OPERATOR_NAME
-                value: "istio-operator"
+                value: "istio2-operator"
