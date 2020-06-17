@@ -15,7 +15,7 @@ parameters:
 - displayName: Istio Operator Namespace
   description: The namespace for the Istio operator
   name: OPENSHIFT_ISTIO_OPERATOR_NAMESPACE
-  value: istio-operator
+  value: istio2-operator
   required: true
 - displayName: Default Prefix
   description: The default image prefix for istio deployments
